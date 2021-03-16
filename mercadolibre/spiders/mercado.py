@@ -8,7 +8,7 @@ import re
 class MercadoSpider(CrawlSpider):
     name = 'mercado'
     allowed_domains = ['mercadolibre.com.mx']
-    start_urls = ['https://www.mercadolibre.com.mx/c/celulares-y-telefonia#menu=categories']
+    start_urls = ['https://www.mercadolibre.com.mx/c/computacion#c_id=/home/categories/category-l1/category-l1&c_category_id=MLM1648&c_uid=9913e8c0-8695-11eb-90ed-f3ae727f01a9']
 
     rules = (
         Rule(LinkExtractor(allow=r'.*CATEGORY_ID=MLM.\d+.*'), follow=True),
@@ -19,8 +19,9 @@ class MercadoSpider(CrawlSpider):
                                                             r'.*product_trigger_id=MLM+\d+',
                                                             r'.*/seller-info$',
                                                             r'.*pdp_filters=category:.*',
+                                                            r'.*method=add.*',
                                                             r'.*/s$')),callback='parse',follow=True)
-    )
+    )   
 
 
     def parse (self,response):
