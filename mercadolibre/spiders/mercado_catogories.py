@@ -1,4 +1,5 @@
 import scrapy
+from scrapy import linkextractors
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 import datetime
@@ -6,12 +7,13 @@ from ..items import MercadolibreItem
 import re
 
 class MercadoSpider(CrawlSpider):
-    name = 'mercado'
+    name = '11'
     allowed_domains = ['mercadolibre.com.mx']
-    start_urls = ['https://www.mercadolibre.com.mx/c/computacion#c_id=/home/categories/category-l1/category-l1&c_category_id=MLM1648&c_uid=9913e8c0-8695-11eb-90ed-f3ae727f01a9']
-
+    start_urls = ['https://computacion.mercadolibre.com.mx/mouses-teclados-controles-mouse/#applied_filter_id%3Dcategory%26applied_filter_name%3DCategor%C3%ADas%26applied_filter_order%3D5%26applied_value_id%3DMLM1714%26applied_value_name%3DMouse%26applied_value_order%3D2%26applied_value_results%3D29080']
+    
     rules = (
-        Rule(LinkExtractor(allow=r'.*CATEGORY_ID=MLM.\d+.*'), follow=True),
+        Rule(LinkExtractor(allow=r'.*._ID=MLM.\d+.*'), follow=True),
+        Rule(LinkExtractor(allow=r'.*#applied_filter_id%3Dcategory%26applied_filter_name%3DCategor.*'),follow=True),#获取左边分类
         Rule(LinkExtractor(allow=r'.*/_Desde_\d+$'),follow=True),#下一页  follow = true的意思是下一次提取网页中包含我们我们需要提取的信息,True代表继续提取
         Rule(LinkExtractor(allow=r'.*/MLM(\d+|-\d+)',deny=( r'.*/jms/mlm/lgz/login.*',
                                                             r'.*noindex.*',
@@ -19,11 +21,10 @@ class MercadoSpider(CrawlSpider):
                                                             r'.*product_trigger_id=MLM+\d+',
                                                             r'.*/seller-info$',
                                                             r'.*pdp_filters=category:.*',
-                                                            r'.*method=add.*',
+                                                            r'.*method=.*',
                                                             r'.*/s$')),callback='parse',follow=True)
+         
     )   
-
-
     def parse (self,response):
         #print('--------------------当前连接----------------')
         #print(response.url)
