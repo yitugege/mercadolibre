@@ -9,7 +9,7 @@ import re
 class MercadoSpider(CrawlSpider):
     name = '11'
     allowed_domains = ['mercadolibre.com.mx']
-    start_urls = ['https://computacion.mercadolibre.com.mx/mouses-teclados-controles-mouse/#applied_filter_id%3Dcategory%26applied_filter_name%3DCategor%C3%ADas%26applied_filter_order%3D5%26applied_value_id%3DMLM1714%26applied_value_name%3DMouse%26applied_value_order%3D2%26applied_value_results%3D29080']
+    start_urls = ['https://www.mercadolibre.com.mx/c/computacion#menu=categories']
     
     rules = (
         Rule(LinkExtractor(allow=r'.*._ID=MLM.\d+.*'), follow=True),
@@ -61,14 +61,14 @@ class MercadoSpider(CrawlSpider):
         #print(like_count)
         #打印店铺
         seller = response.xpath('//a[@class="ui-pdp-action-modal__link"]/span[@class="ui-pdp-color--BLUE"]/text()').get()
-        if  seller == None:
-            return
         #获取销量,判读是否为usado,如果不是那么取整数，如果是不做操作
         Num_sell = response.xpath('//div[@class="ui-pdp-header"]/div[@class="ui-pdp-header__subtitle"]/span[@class="ui-pdp-subtitle"]/text()').get()
+        if  re.match(r'\d+',seller) == None:
+            return
         #print("-----------------------------------Num_sell--------------------------")
         #print(Num_sell)
         #print(type(Num_sell))
-        if bool(re.findall(r'\d+',Num_sell)):
+        elif bool(re.findall(r'\d+',Num_sell)):
             Num_sell = re.findall(r"\d+",Num_sell)
             Num_sell = list(map(int,Num_sell))
             Num_sell = Num_sell[0]
