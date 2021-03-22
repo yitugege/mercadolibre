@@ -63,7 +63,7 @@ class MercadoSpider(CrawlSpider):
         seller = response.xpath('//a[@class="ui-pdp-action-modal__link"]/span[@class="ui-pdp-color--BLUE"]/text()').get()
         #获取销量,判读是否为usado,如果不是那么取整数，如果是不做操作
         Num_sell = response.xpath('//div[@class="ui-pdp-header"]/div[@class="ui-pdp-header__subtitle"]/span[@class="ui-pdp-subtitle"]/text()').get()
-        if  re.match(r'\d+',Num_sell) == None:
+        if  Num_sell is None:
             return
         #print("-----------------------------------Num_sell--------------------------")
         #print(Num_sell)
