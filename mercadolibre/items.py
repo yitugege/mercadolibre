@@ -17,4 +17,5 @@ class MercadolibreItem(scrapy.Item):
     id = scrapy.Field()   #string
     url = scrapy.Field()  #string
     current_time = scrapy.Field()   #string
+    days60_sell = scrapy.Field()   #string
     pass
