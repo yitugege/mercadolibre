@@ -14,7 +14,7 @@ class QuotesSpider(scrapy.Spider):
 
     def start_requests(self):
         urls = [
-            'https://articulo.mercadolibre.com.mx/MLM-710570844-crema-de-almendras-kirkland-signature-de-765-gr-_JM#reco_item_pos=1&reco_backend=machinalis-p2p-cpg&reco_backend_type=function&reco_client=vip&reco_id=82637351-300e-4fce-b299-3cd72c32fdfe',
+            'https://articulo.mercadolibre.com.mx/MLM-897203135-mini-teclado-inalambrico-n-mouse-touchpad-android-tv-xbox-pc-_JM?searchVariation=79805411955#searchVariation=79805411955&position=5&search_layout=stack&type=item&tracking_id=46f730f2-b289-41af-89ca-90d66b788112',
             ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -53,8 +53,10 @@ class QuotesSpider(scrapy.Spider):
 
         #print("-----------------------------------likeaccount--------------------------")
         #print(like_count)
-        #打印店铺
-        seller = response.xpath('//a[@class="ui-pdp-action-modal__link"]/span[@class="ui-pdp-color--BLUE"]/text()').get()
+        #打印店铺分类
+        #seller = response.xpath('//a[@class="ui-pdp-action-modal__link"]/span[@class="ui-pdp-color--BLUE"]/text()').get()
+        #获取分类标签
+        seller = response.xpath('//li[@class="andes-breadcrumb__item"][1]/a[@class="andes-breadcrumb__link"]/@title').get()
         #获取销量,判读是否为usado,如果不是那么取整数，如果是不做操作
         Num_sell = response.xpath('//div[@class="ui-pdp-header"]/div[@class="ui-pdp-header__subtitle"]/span[@class="ui-pdp-subtitle"]/text()').get()
         if  Num_sell is None:
